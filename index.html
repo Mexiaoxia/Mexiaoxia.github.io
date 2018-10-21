@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>简易瀑布流</title>
+</head>
+<style>
+	*{margin:0;padding:0;list-style: none;}
+	#box{width: 966px; margin:10px auto;overflow: hidden;}
+	#box ul{width: 300px;border:1px solid #000; float: left;}
+	#box ul li{width: 280px;margin:10px;background:#ccc;}
+</style>
+<script>
+	function creatLi(){
+		var oLi=document.createElement('li');
+		oLi.style.height=parseInt(Math.random()*400+100)+'px';
+		oLi.style.background='rgb('+parseInt(Math.random()*256)+','+parseInt(Math.random()*256)+','+parseInt(Math.random()*256)+')';
+		return oLi;
+	}
+	window.onload=function(){
+		var aUl=document.getElementsByTagName('ul');
+
+		function creat(){
+			for(var i=0;i<20;i++){
+				var oLi=creatLi();
+			
+				var minUl=null;
+				var h1=aUl[0].offsetHeight;
+				var h2=aUl[1].offsetHeight;
+				var h3=aUl[2].offsetHeight;
+
+				if(h1<h2){
+					if(h1<h3){
+						minUl=aUl[0];
+					}else{
+						minUl=aUl[2];
+					}
+				}else{
+					if(h2<h3){
+						minUl=aUl[1];
+					}else{
+						minUl=aUl[2];
+					}
+				}
+				minUl.appendChild(oLi);
+			}
+		}
+
+		creat();
+
+		window.onscroll=function(){
+			var scrollT=document.documentElement.scrollTop || document.body.scrollTop;
+			var winH=document.documentElement.clientHeight;
+			var bottomT=scrollT+winH;
+			document.title=document.body.offsetHeight;
+			if(bottomT>=document.body.offsetHeight-500){
+				creat();
+			}
+		}
+
+		
+	}
+</script>
+<body>
+<div id="box">
+	<ul></ul>
+	<ul></ul>
+	<ul></ul>
+</div>
+</body>
+</html>
